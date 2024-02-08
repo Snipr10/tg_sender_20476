@@ -13,6 +13,7 @@ from bs4 import BeautifulSoup
 import os
 
 IDS_PATH = "ids"
+EXIST_IDS = set()
 
 class Networks(Enum):
     ok = "Одноклассники"
@@ -79,6 +80,7 @@ def add_new_ids(ids):
     with open(f"{IDS_PATH}/ids_{time.time()}.txt", "w") as f:
         for id_ in ids:
             f.write(f"{id_}\n")
+    EXIST_IDS.update(ids)
 
 
 def get_results():
@@ -89,7 +91,7 @@ def get_results():
         res_dict[f"{p['network_name']}_{p['id']}"] = p
     ids = get_exists_ids()
     add_new_ids(list(res_dict.keys()))
-    return [v for k, v in res_dict.items() if k not in ids]
+    return [v for k, v in res_dict.items() if k not in ids and k not in EXIST_IDS]
 
 
 def get_result_messages():
