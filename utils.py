@@ -90,8 +90,9 @@ def get_results():
     for p in posts.get("posts"):
         res_dict[f"{p['network_name']}_{p['id']}"] = p
     ids = get_exists_ids()
+    result = [v for k, v in res_dict.items() if k not in ids and k not in EXIST_IDS]
     add_new_ids(list(res_dict.keys()))
-    return [v for k, v in res_dict.items() if k not in ids and k not in EXIST_IDS]
+    return result
 
 
 def get_result_messages():
